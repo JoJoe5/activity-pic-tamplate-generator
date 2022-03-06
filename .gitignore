@@ -1,0 +1,29 @@
+.DS_Store
+node_modules
+
+/dist
+# src/assets/icons-1.5.0
+# src/assets/icons-1.5.0
+# src/assets/bootstrap-icons-1.6.1
+# src/assets/bootstrap-5.1.2-dist
+
+# local env files
+# .env
+# .env.local
+# .env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
