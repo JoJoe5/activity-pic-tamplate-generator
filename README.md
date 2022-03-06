@@ -1,5 +1,3 @@
-# eunice-spa
-
 ## Version Infomation
 vue : 3.2.20  
 node.js : v14.17.6  
