@@ -3,6 +3,16 @@
     <div class="col-2"></div>
     <div class="col text-center">
       <h1>國際婦女節活動照片產生器</h1>
+      <!-- <p class="text-danger">
+        ※如用平板或手機製作，請先將瀏覽器設定為電腦版開啟再進行製作
+      </p> -->
+      <!-- <p>
+        <img
+          class="w-25"
+          src="/activity-pic-tamplate-generator/img/toComputer.jpg"
+          alt="toComputer.jpg"
+        />
+      </p> -->
     </div>
     <div class="col-2"></div>
   </div>
@@ -40,6 +50,9 @@
     <div class="col-2"></div>
     <div class="col text-center">
       <h1>預覽圖片</h1>
+      <p class="text-center text-danger">
+        ※確認圖片後請使用螢幕截圖，再進行裁切，即可獲得您的專屬 social mediacard !!
+      </p>
     </div>
     <div class="col-2"></div>
   </div>
@@ -75,7 +88,10 @@
           </div>
         </div>
         <img v-if="imageUrl" class="img-headshot" :src="imageUrl" />
-        <div class="bg-img-h13-w25" style="background-image: url(/img/abbott-bg.png);"></div>
+        <div
+          class="bg-img-h13-w25"
+          style="background-image: url(/activity-pic-tamplate-generator/img/abbott-bg.png);"
+        ></div>
       </div>
       <div class="col-2"></div>
     </div>
@@ -108,7 +124,10 @@
           </div>
         </div>
         <img v-if="imageUrl" class="img-headshot" :src="imageUrl" />
-        <div class="bg-img-h13-w25" style="background-image: url(/img/abbott-bg.png);"></div>
+        <div
+          class="bg-img-h13-w25"
+          style="background-image: url(/activity-pic-tamplate-generator/img/abbott-bg.png);"
+        ></div>
       </div>
       <div class="col-2"></div>
     </div>
@@ -141,7 +160,10 @@
           </div>
         </div>
         <img v-if="imageUrl" class="img-headshot" :src="imageUrl" />
-        <div class="bg-img-h13-w25" style="background-image: url(/img/abbott-bg.png);"></div>
+        <div
+          class="bg-img-h13-w25"
+          style="background-image: url(/activity-pic-tamplate-generator/img/abbott-bg.png);"
+        ></div>
       </div>
       <div class="col-2"></div>
     </div>
@@ -174,7 +196,10 @@
           </div>
         </div>
         <img v-if="imageUrl" class="img-headshot" :src="imageUrl" />
-        <div class="bg-img-h13-w25" style="background-image: url(/img/abbott-bg.png);"></div>
+        <div
+          class="bg-img-h13-w25"
+          style="background-image: url(/activity-pic-tamplate-generator/img/abbott-bg.png);"
+        ></div>
       </div>
       <div class="col-2"></div>
     </div>
@@ -207,7 +232,10 @@
           </div>
         </div>
         <img v-if="imageUrl" class="img-headshot" :src="imageUrl" />
-        <div class="bg-img-h13-w25" style="background-image: url(/img/abbott-bg.png);"></div>
+        <div
+          class="bg-img-h13-w25"
+          style="background-image: url(/activity-pic-tamplate-generator/img/abbott-bg.png);"
+        ></div>
       </div>
       <div class="col-2"></div>
     </div>
@@ -215,10 +243,10 @@
   <div class="mb-3">
     <div class="row g-0">
       <div class="col-md-3"></div>
-      <div class="col-md-3 col btn btn-secondary btn-lg mx-md-3" @click="reset">重設</div>
-      <div class="col-md-3 col btn btn-primary btn-lg mx-md-3" @click="generatorImage">
+      <div class="col-md-6 col btn btn-secondary btn-lg mx-md-3" @click="reset">重設</div>
+      <!-- <div class="col-md-3 col btn btn-primary btn-lg mx-md-3" @click="generatorImage">
         下載圖片
-      </div>
+      </div> -->
       <div class="col-md-3"></div>
     </div>
   </div>
@@ -253,6 +281,45 @@ export default {
         link.click();
       });
     },
+    toImage() {
+      // 手動創建一個 canvas 標簽
+      const canvas = document.createElement('canvas');
+      // 獲取父標簽，意思是這個標簽內的 DOM 元素生成圖片
+      // capture是給截圖范圍內的父級元素自定義的ref名稱
+      const canvasBox = this.$refs.capture;
+      // 獲取父級的寬高
+      // eslint-disable-next-line radix
+      const width = parseInt(window.getComputedStyle(canvasBox).width);
+      // eslint-disable-next-line radix
+      const height = parseInt(window.getComputedStyle(canvasBox).height);
+      // 寬高 * 2 並放大 2 倍 是為瞭防止圖片模糊
+      canvas.width = width * 2;
+      canvas.height = height * 2;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      const context = canvas.getContext('2d');
+      context.scale(2, 2);
+      const options = {
+        backgroundColor: null,
+        canvas,
+        useCORS: true,
+      };
+      // eslint-disable-next-line no-shadow
+      html2canvas(canvasBox, options).then((canvas) => {
+        // toDataURL 圖片格式轉成 base64
+        const dataURL = canvas.toDataURL('image/png');
+        console.log(dataURL);
+        this.downloadImage(dataURL);
+      });
+    },
+    // 下載圖片
+    downloadImage(url) {
+      // 如果是在網頁中可以直接創建一個 a 標簽直接下載
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = '首頁截圖';
+      a.click();
+    },
     reset() {
       this.title = '';
       this.content = '';
@@ -270,7 +337,7 @@ export default {
   background-size: cover !important;
   background-position: center !important;
   padding-top: 52%;
-  image-rendering: crisp-edges;
+  image-rendering: pixelated;
 }
 .card-content {
   position: absolute;
